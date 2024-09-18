@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consumer.RabbitMq.Worker", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Producer.RabbitMq.Worker", "src\Producer.RabbitMq.Worker\Producer.RabbitMq.Worker.csproj", "{0683B489-120F-440D-A343-EF9469C45B5F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Broker.RabbitMq.Infrastructure", "src\Broker.RabbitMq.Infrastructure\Broker.RabbitMq.Infrastructure.csproj", "{7CA4F4EB-2F50-449C-8F4D-5835D2EBF33C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,9 +28,14 @@ Global
 		{0683B489-120F-440D-A343-EF9469C45B5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0683B489-120F-440D-A343-EF9469C45B5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0683B489-120F-440D-A343-EF9469C45B5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CA4F4EB-2F50-449C-8F4D-5835D2EBF33C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CA4F4EB-2F50-449C-8F4D-5835D2EBF33C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CA4F4EB-2F50-449C-8F4D-5835D2EBF33C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CA4F4EB-2F50-449C-8F4D-5835D2EBF33C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A3BBC987-EC63-49B0-95DB-A2F0A514A56F} = {CC24B9A0-8C25-4E78-B4B8-2C724DF9B714}
 		{0683B489-120F-440D-A343-EF9469C45B5F} = {CC24B9A0-8C25-4E78-B4B8-2C724DF9B714}
+		{7CA4F4EB-2F50-449C-8F4D-5835D2EBF33C} = {CC24B9A0-8C25-4E78-B4B8-2C724DF9B714}
 	EndGlobalSection
 EndGlobal

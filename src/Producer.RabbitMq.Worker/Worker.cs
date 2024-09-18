@@ -1,4 +1,5 @@
 using System.Text;
+using Broker.RabbitMq.Infrastructure.Services;
 using RabbitMQ.Client;
 
 namespace Producer.RabbitMq.Worker;
@@ -6,10 +7,12 @@ namespace Producer.RabbitMq.Worker;
 public class Worker : BackgroundService
 {
     private readonly ILogger<Worker> _logger;
+    private readonly IConnection _connection;
 
-    public Worker(ILogger<Worker> logger)
+    public Worker(ILogger<Worker> logger, IRabbitMqService rabbitMqService)
     {
         _logger = logger;
+        _connection = rabbitMqService.CreateChannel();
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -31,11 +34,9 @@ public class Worker : BackgroundService
         }
     }
 
-    private static void ProducerMessage()
+    private void ProducerMessage()
     {
-        var factory = new ConnectionFactory { HostName = "localhost", UserName = "user", Password = "password" };
-        using var connection = factory.CreateConnection();
-        using var channel = connection.CreateModel();
+        using var channel = _connection.CreateModel();
         
         channel.QueueDeclare(queue: "hello", durable: false, exclusive: false, autoDelete: false, arguments: null);
         

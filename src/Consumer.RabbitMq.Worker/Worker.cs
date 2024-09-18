@@ -1,4 +1,5 @@
 using System.Text;
+using Broker.RabbitMq.Infrastructure.Services;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -7,10 +8,12 @@ namespace Consumer.RabbitMq.Worker;
 public class Worker : BackgroundService
 {
     private readonly ILogger<Worker> _logger;
+    private readonly IConnection _connection;
 
-    public Worker(ILogger<Worker> logger)
+    public Worker(ILogger<Worker> logger, IRabbitMqService rabbitMqService)
     {
         _logger = logger;
+        _connection = rabbitMqService.CreateChannel();
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -27,24 +30,23 @@ public class Worker : BackgroundService
             
             _logger.LogInformation("Finish Consumer Message");
             
-            await Task.Delay(10000, stoppingToken);
+            await Task.Delay(20000, stoppingToken);
         }
     }
 
     private void ConsumerMessage()
     {
-        var factory = new ConnectionFactory { HostName = "localhost", UserName = "user", Password = "password" };
-        using var connection = factory.CreateConnection();
-        using var channel = connection.CreateModel();
+        using var channel = _connection.CreateModel();
         
         channel.QueueDeclare(queue: "hello", durable: false, exclusive: false, autoDelete: false, arguments: null);
         
-        var consumer = new EventingBasicConsumer(channel);
-        consumer.Received += (model, ea) =>
+        var consumer = new AsyncEventingBasicConsumer(channel);
+        consumer.Received += async (model, ea) =>
         {
             var body = ea.Body.ToArray();
             var message = Encoding.UTF8.GetString(body);
             Console.WriteLine($" Received: {message}");
+            await Task.Yield();
         };
         
         channel.BasicConsume(queue: "hello", autoAck: true, consumer: consumer);
